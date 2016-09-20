@@ -8,7 +8,7 @@ base_url="http://pre.service.aflt.papayamobile.com"
 #设置基地址
 
 def click_conv(index):
-    click_url = base_url+"/transaction/post_click?offer_id=5&aff_id=6&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&aff_sub5=SUB5&source=SRC&aff_sub6=testtime"+str(index)
+    click_url = base_url+"/transaction/post_click?offer_id=99976&aff_id=6&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&aff_sub5=SUB5&source=SRC&aff_sub6=testtime"+str(index)
     #测试环境offer_id=5&aff_id=7，线上环境offer_id=317&aff_id=129
     click_res = requests.post(click_url,allow_redirects=False).content#发起点击
     print click_res
