@@ -3,7 +3,7 @@ import  requests
 import time
 import random
 import logging
-
+from multiprocessing import Pool
 logging.basicConfig(
                 format='%(asctime)s %(message)s',
                 datefmt='%a, %d %b %Y %H:%M:%S',
@@ -12,7 +12,7 @@ logging.basicConfig(
 
 #base_url="http://auto.atracking.appflood.com"
 #base_url="http://pre.service.aflt.papayamobile.com"
-base_url="http://54.67.94.143:9092"#dynamic
+base_url="http://54.67.94.143:9092"#dynamic测试地址
 #base_url="http://54.215.117.231:1256"
 #设置基地址
 #aff_list = ["21", "883", "1416", "1420", "1459"]
@@ -20,18 +20,25 @@ base_url="http://54.67.94.143:9092"#dynamic
 #aff_list=["1500","1501","1502","1503","1504","1505","1506"]
 aff_list=["1458","1468"]
 current_time=time.strftime('%Y%m%d_%H%M%S',time.localtime(time.time()))
-def click_conv(index,aff_id):
+def click_conv(index):
+    print '第%03d次请求' % (index + 1)
     sub_str=str("%03d"%(index+1))
-    click_url = base_url+"/transaction/post_click?offer_id=85168&aff_id="+aff_id+"&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&source=deduct&aff_sub6=test"+sub_str+"&aff_sub5="+current_time
+    aff_id = aff_list[random.randint(0, len(aff_list)) - 1]
+    click_url = base_url+"/transaction/post_click?offer_id=85588&aff_id="+aff_id+"&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&source=main_expite&aff_sub6=test"+sub_str+"&aff_sub5="+current_time
     #测试环境offer_id=5&aff_id=7，线上环境offer_id=317&aff_id=129
     click_res = requests.post(click_url,allow_redirects=False).content#发起点击
     print click_res
     #time.sleep(1)
-    position=click_res.index("transaction_id")
+    position=click_res.find("transaction_id")
+    if position==-1:
+        print ("click failed,cannot find transaction_id!")
+        logging.warning(sub_str+'\t'+aff_id+'\t'+"no transaction_id")
+        return -1
+
     tran_id= click_res[position+15:position+49]#截取transactionID
     print tran_id
     conv_url=base_url+"/transaction/post_conversion?transaction_id="+tran_id
-    print conv_url
+    #print conv_url
     conv_res=requests.post(conv_url,allow_redirects=False).content#确认转化
 
     print conv_res
@@ -46,15 +53,14 @@ def click_conv(index,aff_id):
     logging.warning(log_text)
 
 logging.warning('mission start')
-for i in range(20):#设置循环次数
-    #print len(aff_list)
-
-    aff_id=aff_list[random.randint(0,len(aff_list)-1)]
-    print '第%03d次请求' % (i + 1)
+# for i in range(10):#设置循环次数
+#     print '第%03d次请求' % (i + 1)
+#     click_conv(i)
     #log_text= "aff_id:" + aff_id
     #logging.debug('log_text')
-
     #print ("%03d"%(i+1))
-    click_conv(i,aff_id)
+if __name__ == '__main__':
+    p = Pool(64)
+    print(p.map(click_conv, range(128)))
 logging.warning('mission complete')
 
