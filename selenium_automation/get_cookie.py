@@ -8,9 +8,12 @@ base_url="http://aflt-frontend-pre-1017451597.us-west-1.elb.amazonaws.com/"#pre�
 #base_url="http://affiliates.appflood.com/"#正式服地址
 driver=webdriver.Chrome('C:\Program Files (x86)\Google\Chrome\Application\chromedriver')
 
+username="l@l.com"
+password="123456"
+
 driver.get(base_url)
-driver.find_element_by_xpath('//*[@id="panelBody"]/table/tbody/tr[1]/td[2]/input').send_keys("l@l.com")
-driver.find_element_by_xpath('//*[@id="panelBody"]/table/tbody/tr[2]/td[2]/input').send_keys("123456")
+driver.find_element_by_xpath('//*[@id="panelBody"]/table/tbody/tr[1]/td[2]/input').send_keys(username)
+driver.find_element_by_xpath('//*[@id="panelBody"]/table/tbody/tr[2]/td[2]/input').send_keys(password)
 driver.find_element_by_xpath('//*[@id="panelBody"]/table/tbody/tr[3]/td[2]/button').click()#login
 time.sleep(2)
 cookie=driver.get_cookies()
