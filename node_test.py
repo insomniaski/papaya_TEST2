@@ -2,7 +2,7 @@
 import  requests
 import time
 #用于线上多节点测试
-base_url="atracking.appflood.com"
+base_url="technologyaffiliate.com"
 node_list=["","usw.","sg.","jp.","sa.","eu.","au.","in.","auto."]#八个节点的域名前缀，没前缀的是美东，auto是自动
 url_list=[]
 for i in range(9):
@@ -10,7 +10,7 @@ for i in range(9):
 #print url_list
 
 def click_conv(node_url,node_info):   #对节点发送一组三个tracking
-    click_url = node_url+"/transaction/post_click?offer_id=317&aff_id=129&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&aff_sub5=SUB5&source=SRC&aff_sub6=Testnode:"+node_info
+    click_url = node_url+"/transaction/post_click?offer_id=203984&aff_id=128&aff_sub=SUB1&aff_sub2=SUB2&aff_sub3=SUB3&aff_sub4=SUB4&aff_sub5=SUB5&source=SRC&aff_sub6=Testnode:"+node_info
     #测试环境offer_id=5&aff_id=7，线上环境offer_id=317&aff_id=129
     click_res = requests.post(click_url,allow_redirects=False).content#发起点击
     print click_res
