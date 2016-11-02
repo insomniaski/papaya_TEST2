@@ -1,1 +1,1 @@
-TESTTEST
+在木瓜移动工作中使用的一些脚本，主要用于测试service端的广告追踪功能，也有一些selenium的UI测试。
